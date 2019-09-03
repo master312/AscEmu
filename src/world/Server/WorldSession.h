@@ -260,19 +260,6 @@ class SERVER_DECL WorldSession
         void handleAreaTriggerOpcode(WorldPacket& recvPacket);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        // ArenaTeamHandler.cpp
-        void handleArenaTeamQueryOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamAddMemberOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamRemoveMemberOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamInviteAcceptOpcode(WorldPacket& /*recvPacket*/);
-        void handleArenaTeamInviteDenyOpcode(WorldPacket& /*recvPacket*/);
-        void handleArenaTeamLeaveOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamDisbandOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamPromoteOpcode(WorldPacket& recvPacket);
-        void handleArenaTeamRosterOpcode(WorldPacket& recvPacket);
-        void handleInspectArenaStatsOpcode(WorldPacket& recvPacket);
-
-        //////////////////////////////////////////////////////////////////////////////////////////
         // AuctionHandler.cpp
         void handleAuctionHelloOpcode(WorldPacket& recvPacket);
         void handleAuctionListItems(WorldPacket& recvPacket);
@@ -284,24 +271,135 @@ class SERVER_DECL WorldSession
         void handleAuctionListPendingSales(WorldPacket& recvPacket);
 
         //////////////////////////////////////////////////////////////////////////////////////////
+        // ArenaTeamHandler.cpp
+
+        /**
+         * Returns info abount specified arena team 
+         */
+        void handleArenaTeamQueryOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Invite new player to arena team. 
+         * Sends message to invited player
+         */
+        void handleArenaTeamAddMemberOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Removes player from arena team
+         */
+        void handleArenaTeamRemoveMemberOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Invited player accepts invitation to team
+         */
+        void handleArenaTeamInviteAcceptOpcode(WorldPacket& /*recvPacket*/);
+
+        /**
+         * Invited player denies invitation to team
+         */
+        void handleArenaTeamInviteDenyOpcode(WorldPacket& /*recvPacket*/);
+
+        /**
+         * Player request to leave arena teams
+         */
+        void handleArenaTeamLeaveOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Destroy arena team
+         */
+        void handleArenaTeamDisbandOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Promote team member to team leader
+         */
+        void handleArenaTeamPromoteOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Returns details abount every member in team... (when player opens arena team overview window)
+         */
+        void handleArenaTeamRosterOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Returns general info about team.. like rating, player number and shit. (when player opens window that lists all his arena teams)
+         */
+        void handleInspectArenaStatsOpcode(WorldPacket& recvPacket);
+
+        //////////////////////////////////////////////////////////////////////////////////////////
         // BattlegroundHandler.cpp
     public:
         void sendBattlegroundList(Creature* creature, uint32_t mapId);
 
     protected:
+        /**
+         * Player requests to be ported to BG? Maybe rename packet to accept?
+         */
         void handleBattlefieldPortOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Send status, like:
+         * Player is now in queue, BG ready to join, Time Remaining (EX: Wintergrasp)
+         */
         void handleBattlefieldStatusOpcode(WorldPacket& /*recvPacket*/);
+        
+        /**
+         * Send by player when talking to battlemaster. 
+         * Returns list of available BGs
+         */
         void handleBattleMasterHelloOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Player requests to leave battleground
+         */
         void handleLeaveBattlefieldOpcode(WorldPacket& /*recvPacket*/);
+
+        /**
+         * Player request to see how much time is left until next resurect wave in BG
+         */
         void handleAreaSpiritHealerQueryOpcode(WorldPacket& recvPacket);
+
+        /**
+         * aaam, player requires to be ressorected by spirit healer?? 
+         * And response of this funciton is to ressuorect player?
+         */
         void handleAreaSpiritHealerQueueOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Gives player position of flag holders in BG?
+         */
         void handleBattlegroundPlayerPositionsOpcode(WorldPacket& /*recvPacket*/);
+
+        /**
+         * Player requests to join arena
+         */
         void handleArenaJoinOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Player request to join battlegorund
+         */
         void handleBattleMasterJoinOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Player requests PVP stats (like honor, honorable kills, all time kills etc....)
+         */
         void handleInspectHonorStatsOpcode(WorldPacket& recvPacket);
+
+        /**
+         * Player opens BG list. 
+         * Returns list of all stats for every player in BG (like kills, deaths, etc..)
+         */
         void handlePVPLogDataOpcode(WorldPacket& /*recvPacket*/);
+        
+        /**
+         * Send by player, when clicks on specified BG in BG window list...
+         * Returns info for selected BG
+         */
         void handleBattlefieldListOpcode(WorldPacket& recvPacket);
+
 #if VERSION_STRING >= Cata
+        /**
+         * CATA Stuff, currently dose not work anyway....
+         * TODO: Research how rated BGs work.
+         */
         void handleRequestRatedBgInfoOpcode(WorldPacket& recvPacket);
         void handleRequestRatedBgStatsOpcode(WorldPacket& /*recvPacket*/);
         void handleRequestPvPRewardsOpcode(WorldPacket& /*recvPacket*/);
