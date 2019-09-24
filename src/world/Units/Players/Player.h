@@ -40,7 +40,7 @@
 
 struct CharCreate;
 class QuestLogEntry;
-struct BGScore;
+struct BattlegroundScore;
 class AchievementMgr;
 class Channel;
 class Creature;
@@ -1737,7 +1737,7 @@ public:
         bool m_AutoAddMem;
         void SendMirrorTimer(MirrorTimerTypes Type, uint32 max, uint32 current, int32 regen);
         
-        BGScore m_bgScore;
+        BattlegroundScore m_bgScore;
         
         void UpdateChanceFields();
         //Honor Variables

@@ -128,7 +128,7 @@ void CBattleground::BuildPvPUpdateDataPacket(WorldPacket* data)
     data->Initialize(MSG_PVP_LOG_DATA);
     data->reserve(10 * (m_players[0].size() + m_players[1].size()) + 50);
 
-    BGScore* bs;
+    BattlegroundScore* bs;
     if (isArena(m_type))
     {
         if (!m_ended)
@@ -349,7 +349,7 @@ void CBattleground::PortPlayer(Player* plr, bool skip_teleport /* = false*/)
     plr->RemoveAurasByInterruptFlag(AURA_INTERRUPT_ON_PVP_ENTER);
 
     /* Reset the score */
-    memset(&plr->m_bgScore, 0, sizeof(BGScore));
+    memset(&plr->m_bgScore, 0, sizeof(BattlegroundScore));
 
     /* update pvp data */
     UpdatePvPData();
@@ -636,7 +636,7 @@ void CBattleground::RemovePlayer(Player* plr, bool logout)
     plr->m_bg = nullptr;
     plr->FullHPMP();
     m_players[plr->getBgTeam()].erase(plr);
-    memset(&plr->m_bgScore, 0, sizeof(BGScore));
+    memset(&plr->m_bgScore, 0, sizeof(BattlegroundScore));
 
     /* are we in the group? */
     if (plr->GetGroup() == m_groups[plr->getBgTeam()])

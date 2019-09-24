@@ -479,7 +479,7 @@ Player::Player(uint32 guid)
     m_playerInfo = nullptr;
     m_sentTeleportPosition.ChangeCoords({ 999999.0f, 999999.0f, 999999.0f });
     m_speedChangeCounter = 1;
-    memset(&m_bgScore, 0, sizeof(BGScore));
+    memset(&m_bgScore, 0, sizeof(BattlegroundScore));
     m_arenateaminviteguid = 0;
     m_arenaPoints = 0;
     m_honorRolloverTime = 0;

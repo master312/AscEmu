@@ -60,7 +60,7 @@ class SERVER_DECL CBattleground : public EventableObject
         std::recursive_mutex m_mutex;
 
         // PvP Log Data Map
-        std::map<uint32, BGScore> m_pvpData;
+        std::map<uint32, BattlegroundScore> m_pvpData;
 
         // Player count per team 
         uint32 m_playerCountPerTeam;
