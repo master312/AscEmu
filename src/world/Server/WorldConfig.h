@@ -134,6 +134,7 @@ class SERVER_DECL WorldConfig
             bool requireGmForCommands;
             bool saveExtendedCharData;
             std::string dataDir;
+            bool scriptVersionCheck;
         } server;
 
         uint32_t getPlayerLimit() const;

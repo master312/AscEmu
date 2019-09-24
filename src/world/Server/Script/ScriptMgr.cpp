@@ -119,7 +119,8 @@ void ScriptMgr::LoadScripts()
         std::string dllVersion = versionCall();
         uint32_t scriptType = typeCall();
 
-        if (dllVersion != BUILD_HASH_STR)
+
+        if (worldConfig.server.scriptVersionCheck && dllVersion != BUILD_HASH_STR)
         {
             loadMessageStream << "ERROR: Version mismatch.";
             LOG_ERROR(loadMessageStream.str().c_str());

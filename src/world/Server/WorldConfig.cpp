@@ -64,6 +64,7 @@ WorldConfig::WorldConfig(): mFloatRates{}, mIntRates{}
     server.requireGmForCommands = false;
     server.saveExtendedCharData = false;
     server.dataDir = "";
+    server.scriptVersionCheck = true;
 
     // world.conf - Player Settings
     player.playerStartingLevel = 1;
@@ -333,6 +334,7 @@ void WorldConfig::loadWorldConfigValues(bool reload /*false*/)
         server.dataDir = "./";
     else if (server.dataDir != "./")
         server.dataDir = "./" + server.dataDir + "/";
+    ARCEMU_ASSERT(Config.MainConfig.tryGetBool("Server", "ScriptsVersionCheck", &server.scriptVersionCheck));
 
     // world.conf - Player Settings
     ARCEMU_ASSERT(Config.MainConfig.tryGetInt("Player", "StartingLevel", &player.playerStartingLevel));
