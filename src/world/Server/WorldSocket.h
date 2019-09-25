@@ -72,6 +72,7 @@ class SERVER_DECL WorldSocket : public Socket
 
         // vs8 fix - send null on empty buffer
         inline void SendPacket(WorldPacket* packet) { if (!packet) return; OutPacket(packet->GetOpcode(), packet->size(), (packet->size() ? (const void*)packet->contents() : NULL)); }
+        inline void SendPacket(const WorldPacket& packet) { OutPacket(packet.GetOpcode(), packet.size(), (packet.size() ? (const void*)packet.contents() : NULL)); }
         inline void SendPacket(StackBufferBase* packet) { if (!packet) return; OutPacket(packet->GetOpcode(), packet->GetSize(), (packet->GetSize() ? (const void*)packet->GetBufferPointer() : NULL)); }
 
 #if VERSION_STRING != Mop

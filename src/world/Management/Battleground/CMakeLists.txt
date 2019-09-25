@@ -9,6 +9,8 @@ set(SRC_MANAGEMENT_BATTLEGROUND_FILES
    ${PATH_PREFIX}/BattlegroundScore.h
    ${PATH_PREFIX}/Battleground.cpp
    ${PATH_PREFIX}/Battleground.h
+   ${PATH_PREFIX}/BattlegroundPackets.h
+   ${PATH_PREFIX}/BattlegroundPackets.cpp
    ${PATH_PREFIX}/BattlegroundMgr.cpp
    ${PATH_PREFIX}/BattlegroundMgr.h
 )

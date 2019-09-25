@@ -129,6 +129,8 @@ class SERVER_DECL WorldSession
 
         Player* m_loggingInPlayer;
 
+        void SendPacket(const WorldPacket& packet);
+
         void SendPacket(WorldPacket* packet);
 
         void SendPacket(StackBufferBase* packet);

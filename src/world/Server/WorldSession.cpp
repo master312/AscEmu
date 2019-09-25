@@ -706,18 +706,36 @@ void WorldSession::nothingToHandle(WorldPacket& recv_data)
     }
 }
 
+void WorldSession::SendPacket(const WorldPacket& packet)
+{
+    if (!_socket || !_socket->IsConnected())
+    {
+        return;
+    }
+
+    if (packet.GetOpcode() == 0x0000)
+    {
+        LOG_ERROR("Return, packet 0x0000 is not a valid packet!");
+        return;
+    }
+
+    _socket->SendPacket(packet);
+}
+
 void WorldSession::SendPacket(WorldPacket* packet)
 {
+    if (!_socket || !_socket->IsConnected())
+    {
+        return;
+    }
+
     if (packet->GetOpcode() == 0x0000)
     {
         LOG_ERROR("Return, packet 0x0000 is not a valid packet!");
         return;
     }
 
-    if (_socket && _socket->IsConnected())
-    {
-        _socket->SendPacket(packet);
-    }
+    _socket->SendPacket(packet);
 }
 
 void WorldSession::SendPacket(StackBufferBase* packet)
