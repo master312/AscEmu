@@ -94,28 +94,28 @@ class SERVER_DECL CBattlegroundManager : public Singleton<CBattlegroundManager>,
         void RegisterMapForBgType(uint32 type, uint32 map);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        // void HandleBattlegroundListPacket(WorldSession* m_session, uint32 BattlegroundType, uint8 from)
+        // void HandleBattlegroundListPacket(WorldSession* session, uint32 bgType, uint8 from)
         // \note   Player opened battleground menu. Return info about current battleground.
         //
         // TODO: Params
         //////////////////////////////////////////////////////////////////////////////////////////
-        void HandleBattlegroundListPacket(WorldSession* m_session, uint32 BattlegroundType, uint8 from = 0);
+        void HandleBattlegroundListPacket(WorldSession* session, uint32 bgType, uint8 from = 0);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        // void HandleArenaJoin(WorldSession* m_session, uint32 BattlegroundType, uint8 as_group, uint8 rated_match)
+        // void HandleArenaJoin(WorldSession* session, uint32 bgType, uint8 as_group, uint8 rated_match)
         // \note   Player requests to join arena queue.
         //
         // TODO: Params
         //////////////////////////////////////////////////////////////////////////////////////////
-        void HandleArenaJoin(WorldSession* m_session, uint32 BattlegroundType, uint8 as_group, uint8 rated_match);
+        void HandleArenaJoin(WorldSession* session, uint32 bgType, uint8 as_group, uint8 rated_match);
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        // void HandleBattlegroundJoin(WorldSession* m_session, WorldPacket& pck)
+        // void HandleBattlegroundJoin(WorldSession* session, WorldPacket& pck)
         // \note   Player requests to join battleground queue.
         //
         // TODO: Params
         //////////////////////////////////////////////////////////////////////////////////////////
-        void HandleBattlegroundJoin(WorldSession* m_session, WorldPacket& pck);
+        void HandleBattlegroundJoin(WorldSession* session, WorldPacket& pck);
 
         /// Periodic update
         void EventQueueUpdate();

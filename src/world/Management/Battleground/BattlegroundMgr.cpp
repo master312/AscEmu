@@ -60,41 +60,40 @@ void CBattlegroundManager::RegisterMapForBgType(uint32 type, uint32 map)
 {
 }
 
-void CBattlegroundManager::HandleBattlegroundListPacket(WorldSession* m_session, uint32 BattlegroundType, uint8 from)
+void CBattlegroundManager::HandleBattlegroundListPacket(WorldSession* session, uint32 bgType, uint8 from)
 {
 
-    if (BattlegroundType >= BATTLEGROUND_NUM_TYPES) // Prevents hacking
+    if (bgType >= BATTLEGROUND_NUM_TYPES) // Prevents hacking
         return;
 
     BattlegroundPackets::BattlefieldList packet;
 
     if (from == 0)
     {
-        // Send 0 instead of GUID when using the BG UI instead of Battlemaster
-        packet.BattlemasterGuid = from;
+        packet.BattlemasterGuid = from; // Send 0 instead of GUID when using the BG UI instead of Battlemaster
     }
     else
     {
-        packet.BattlemasterGuid = m_session->GetPlayer()->getGuid();
+        packet.BattlemasterGuid = session->GetPlayer()->getGuid();
     }
     
     packet.BattlemasterListID = from;
-    packet.BattlegroundType = BattlegroundType;
+    packet.bgType = bgType;
 
-    if (BattlegroundType == BATTLEGROUND_RANDOM)
+    if (bgType == BATTLEGROUND_RANDOM)
     {
         uint32 arenaPointsForLosing;
 
-        m_session->GetPlayer()->FillRandomBattlegroundReward(true, packet.RbgHonorPointsForWinning, packet.RbgArenaPointsForWinning);
-        m_session->GetPlayer()->FillRandomBattlegroundReward(false, packet.RbgHonorPointsForLosing, arenaPointsForLosing);
+        session->GetPlayer()->FillRandomBattlegroundReward(true, packet.RbgHonorPointsForWinning, packet.RbgArenaPointsForWinning);
+        session->GetPlayer()->FillRandomBattlegroundReward(false, packet.RbgHonorPointsForLosing, arenaPointsForLosing);
 
-        packet.HasRandomWinToday = m_session->GetPlayer()->HasWonRbgToday();
+        packet.HasRandomWinToday = session->GetPlayer()->HasWonRbgToday();
     }
 
-    m_session->SendPacket(packet.Write());
+    session->SendPacket(packet.Write());
 }
 
-void CBattlegroundManager::HandleBattlegroundJoin(WorldSession* m_session, WorldPacket& pck)
+void CBattlegroundManager::HandleBattlegroundJoin(WorldSession* session, WorldPacket& pck)
 {
 }
 
@@ -119,6 +118,6 @@ void CBattlegroundManager::SendQueueStatus(Player* plr, BattleGroundStatus Statu
 {
 }
 
-void CBattlegroundManager::HandleArenaJoin(WorldSession* m_session, uint32 BattlegroundType, uint8 as_group, uint8 rated_match)
+void CBattlegroundManager::HandleArenaJoin(WorldSession* session, uint32 bgType, uint8 as_group, uint8 rated_match)
 {
 }
