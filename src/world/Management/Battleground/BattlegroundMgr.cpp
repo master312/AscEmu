@@ -78,7 +78,7 @@ void CBattlegroundManager::HandleBattlegroundListPacket(WorldSession* session, u
     }
     
     packet.BattlemasterListID = from;
-    packet.bgType = bgType;
+    packet.BattlegroundType = bgType;
 
     if (bgType == BATTLEGROUND_RANDOM)
     {

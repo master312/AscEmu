@@ -5,7 +5,15 @@ namespace BattlegroundPackets {
 
     BattlefieldList::BattlefieldList()
     {
-
+        BattlemasterGuid = 0;
+        BattlemasterListID = 0;
+        BattlegroundType = 0;
+        MinLevel = 0;
+        MaxLevel = 0;
+        HasRandomWinToday = false;
+        RbgHonorPointsForWinning = 0;
+        RbgArenaPointsForWinning = 0;
+        RbgHonorPointsForLosing = 0;
     }
 
     WorldPacket BattlefieldList::Write() const
