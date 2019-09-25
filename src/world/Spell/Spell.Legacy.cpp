@@ -47,6 +47,7 @@
 #include "Management/ItemInterface.h"
 #include "Units/Stats.h"
 #include "Management/Battleground/Battleground.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Server/WorldSocket.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Units/Players/PlayerClasses.hpp"

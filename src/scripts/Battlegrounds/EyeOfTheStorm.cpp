@@ -20,6 +20,7 @@
 #include <StdAfx.h>
 #include "EyeOfTheStorm.h"
 #include "Management/HonorHandler.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Management/WorldStates.h"
 #include "Server/MainServerDefines.h"

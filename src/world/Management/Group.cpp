@@ -20,6 +20,7 @@
 
 #include "StdAfx.h"
 #include "Management/LFG/LFGMgr.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "Server/MainServerDefines.h"
 #include "Map/MapMgr.h"
 #include "Spell/SpellAuras.h"

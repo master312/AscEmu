@@ -24,6 +24,7 @@
 
 #include "BattlegroundDefines.h"
 #include "BattlegroundScore.h"
+#include "BattlegroundInfo.h"
 #include "WorldPacket.h"
 #include "Server/EventableObject.h"
 
@@ -36,53 +37,6 @@ class Map;
 class Group;
 /// AV - Corpse
 class Corpse;
-
-inline bool isArena(uint32 x)
-{
-    return (x >= BATTLEGROUND_ARENA_2V2 && x <= BATTLEGROUND_ARENA_5V5);
-}
-
-// get level grouping for player
-static inline uint32 GetLevelGrouping(uint32 level)
-{
-    if (level < 10)
-        return 0;
-    else if (level < 20)
-        return 1;
-    else if (level < 30)
-        return 2;
-    else if (level < 40)
-        return 3;
-    else if (level < 50)
-        return 4;
-    else if (level < 60)
-        return 5;
-    else if (level < 70)
-        return 6;
-    else if (level < 80)
-        return 7;
-    else
-        return 8;
-}
-
-static inline uint32 GetFieldCount(uint32 BGType)
-{
-    switch (BGType)
-    {
-        case BATTLEGROUND_ALTERAC_VALLEY:
-            return 5;
-        case BATTLEGROUND_ARATHI_BASIN:
-        case BATTLEGROUND_WARSONG_GULCH:
-        case BATTLEGROUND_STRAND_OF_THE_ANCIENT:
-        case BATTLEGROUND_ISLE_OF_CONQUEST:
-            return 2;
-        case BATTLEGROUND_EYE_OF_THE_STORM:
-            return 1;
-        default:
-            return 0;
-    }
-}
-
 class Arena;
 
 typedef CBattleground* (*BattlegroundFactoryMethod)(MapMgr* mgr, uint32 iid, uint32 group, uint32 type);
@@ -91,37 +45,6 @@ typedef CBattleground* (*ArenaFactoryMethod)(MapMgr* mgr, uint32 iid, uint32 gro
 
 class SERVER_DECL CBattlegroundManager : public Singleton<CBattlegroundManager>, public EventableObject
 {
-    // Battleground Instance Map
-    std::map<uint32, CBattleground*> m_instances[BATTLEGROUND_NUM_TYPES];
-    Mutex m_instanceLock;
-
-    // Max Id
-    uint32 m_maxBattlegroundId[BATTLEGROUND_NUM_TYPES];
-
-    // Queue System
-    // Instance Id -> list<Player guid> [ BattlegroundType ] (instance 0 - first available)
-    std::list<uint32> m_queuedPlayers[BATTLEGROUND_NUM_TYPES][MAX_LEVEL_GROUP];
-
-    // Instance Id -> list<Group id> [BattlegroundType][LevelGroup]
-    std::list<uint32> m_queuedGroups[BATTLEGROUND_NUM_TYPES];
-
-    Mutex m_queueLock;
-
-    // Bg factory methods by Bg map Id
-    std::map<uint32, BattlegroundFactoryMethod> bgFactories;
-
-    // Arena factory methods
-    std::vector<ArenaFactoryMethod> arenaFactories;
-
-    // Bg map IDs by Bg type Id
-    std::map<uint32, uint32> bgMaps;
-
-    // Arena map IDs
-    std::vector<uint32> arenaMaps;
-
-    // All battlegrounds that are available in random BG queue
-    std::vector<uint32> avalibleInRandom;
-
     public:
 
         CBattlegroundManager();
@@ -170,42 +93,49 @@ class SERVER_DECL CBattlegroundManager : public Singleton<CBattlegroundManager>,
         //////////////////////////////////////////////////////////////////////////////////////////
         void RegisterMapForBgType(uint32 type, uint32 map);
 
-
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // void HandleBattlegroundListPacket(WorldSession* m_session, uint32 BattlegroundType, uint8 from)
+        // \note   Player opened battleground menu. Return info about current battleground.
+        //
+        // TODO: Params
+        //////////////////////////////////////////////////////////////////////////////////////////
         void HandleBattlegroundListPacket(WorldSession* m_session, uint32 BattlegroundType, uint8 from = 0);
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // void HandleArenaJoin(WorldSession* m_session, uint32 BattlegroundType, uint8 as_group, uint8 rated_match)
+        // \note   Player requests to join arena queue.
+        //
+        // TODO: Params
+        //////////////////////////////////////////////////////////////////////////////////////////
         void HandleArenaJoin(WorldSession* m_session, uint32 BattlegroundType, uint8 as_group, uint8 rated_match);
 
-        void OnPlayerLogout(Player* plr);
-
-        void EventQueueUpdate();
-        void EventQueueUpdate(bool forceStart);
-
-        void HandleGetBattlegroundQueueCommand(WorldSession* m_session);
-
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // void HandleBattlegroundJoin(WorldSession* m_session, WorldPacket& pck)
+        // \note   Player requests to join battleground queue.
+        //
+        // TODO: Params
+        //////////////////////////////////////////////////////////////////////////////////////////
         void HandleBattlegroundJoin(WorldSession* m_session, WorldPacket& pck);
 
+        /// Periodic update
+        void EventQueueUpdate();
+
+        /// Removes player from any queues
         void RemovePlayerFromQueues(Player* plr);
+
+        /// Called when group is Disbanded or left queue
         void RemoveGroupFromQueues(Group* grp);
 
-        CBattleground* CreateInstance(uint32 Type, uint32 LevelGroup);
-
-        bool CanCreateInstance(uint32 Type, uint32 LevelGroup);
-
+        //// Delete battlegroun from queue? TODO: research this
         void DeleteBattleground(CBattleground* bg);
 
-        void SendBattlefieldStatus(Player* plr, BattleGroundStatus Status, uint32 Type, uint32 InstanceID, uint32 Time, uint32 MapId, uint8 RatedMatch);
+        /// Sends battleground/arena queue status to player ("ready","timeInQue","UpdateRunningTimeOfCurrentBG")
+        void SendQueueStatus(Player* plr, BattleGroundStatus Status, uint32 Type, uint32 InstanceID, uint32 Time, uint32 MapId, uint8 RatedMatch);
 
-        uint32 GetArenaGroupQInfo(Group* group, int type, uint32* avgRating);
-
-        int CreateArenaType(int type, Group* group1, Group* group2);
-
-        void AddPlayerToBgTeam(CBattleground* bg, std::deque<uint32> *playerVec, uint32 i, uint32 j, int Team);
-
-        void AddPlayerToBg(CBattleground* bg, std::deque<uint32> *playerVec, uint32 i, uint32 j);
-
-        void AddGroupToArena(CBattleground* bg, Group* group, uint32 nteam);
-
+        /// Returns the minimum number of players (Only valid for battlegrounds)
         uint32 GetMinimumPlayers(uint32 dbcIndex);
 
+        /// Returns the maximum number of players (Only valid for battlegrounds)
         uint32 GetMaximumPlayers(uint32 dbcIndex);
 };
 

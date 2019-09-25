@@ -1,3 +1,4 @@
+#pragma once
 #include "CommonTypes.hpp"
 
 const uint32 BG_SCORE_AB_BASES_ASSAULTED        = 0;

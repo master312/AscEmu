@@ -23,6 +23,7 @@
 #include "Management/HonorHandler.h"
 #include "Management/Battleground/Battleground.h"
 #include "Management/Arenas.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Map/MapMgr.h"
 #include <Spell/Definitions/AuraInterruptFlags.h>
@@ -261,7 +262,7 @@ void CBattleground::AddPlayer(Player* plr, uint32 team)
 
     /* Send a packet telling them that they can enter */
     plr->m_pendingBattleground = this;
-    BattlegroundManager.SendBattlefieldStatus(plr, BGSTATUS_READY, m_type, m_id, 80000, m_mapMgr->GetMapId(), Rated());        // You will be removed from the queue in 2 minutes.
+    BattlegroundManager.SendQueueStatus(plr, BGSTATUS_READY, m_type, m_id, 80000, m_mapMgr->GetMapId(), Rated());        // You will be removed from the queue in 2 minutes.
 
     /* Add an event to remove them in 1 minute 20 seconds time. */
     sEventMgr.AddEvent(plr, &Player::RemoveFromBattlegroundQueue, EVENT_BATTLEGROUND_QUEUE_UPDATE, 80000, 1, 0);
@@ -274,7 +275,7 @@ void CBattleground::RemovePendingPlayer(Player* plr)
     m_pendPlayers[plr->getBgTeam()].erase(plr->getGuidLow());
 
     /* send a null bg update (so they don't join) */
-    BattlegroundManager.SendBattlefieldStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
+    BattlegroundManager.SendQueueStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
     plr->m_pendingBattleground = nullptr;
     plr->setBgTeam(plr->getTeam());
 }
@@ -305,7 +306,7 @@ void CBattleground::PortPlayer(Player* plr, bool skip_teleport /* = false*/)
     if (m_ended)
     {
         sChatHandler.SystemMessage(plr->GetSession(), plr->GetSession()->LocalizedWorldSrv(53));
-        BattlegroundManager.SendBattlefieldStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
+        BattlegroundManager.SendQueueStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
         plr->m_pendingBattleground = nullptr;
         return;
     }
@@ -374,7 +375,7 @@ void CBattleground::PortPlayer(Player* plr, bool skip_teleport /* = false*/)
     {
         /* This is where we actually teleport the player to the battleground. */
         plr->SafeTeleport(m_mapMgr, GetStartingCoords(plr->getBgTeam()));
-        BattlegroundManager.SendBattlefieldStatus(plr, BGSTATUS_TIME, m_type, m_id, static_cast<uint32>(UNIXTIME) - m_startTime, m_mapMgr->GetMapId(), Rated());     // Elapsed time is the last argument
+        BattlegroundManager.SendQueueStatus(plr, BGSTATUS_TIME, m_type, m_id, static_cast<uint32>(UNIXTIME) - m_startTime, m_mapMgr->GetMapId(), Rated());     // Elapsed time is the last argument
     }
     else
     {
@@ -680,7 +681,7 @@ void CBattleground::RemovePlayer(Player* plr, bool logout)
             plr->SafeTeleport(plr->GetBindMapId(), 0, vec);
         }
 
-        BattlegroundManager.SendBattlefieldStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
+        BattlegroundManager.SendQueueStatus(plr, BGSTATUS_NOFLAGS, 0, 0, 0, 0, 0);
     }
 
     if (/*!m_ended && */m_players[0].size() == 0 && m_players[1].size() == 0)

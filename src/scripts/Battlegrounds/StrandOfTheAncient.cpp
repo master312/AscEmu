@@ -66,6 +66,7 @@
 #include <StdAfx.h>
 #include "StrandOfTheAncient.h"
 #include "Management/WorldStates.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Map/MapMgr.h"
 #include "Objects/GameObject.h"
 #include "Chat/ChatDefines.hpp"

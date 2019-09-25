@@ -4,6 +4,7 @@ This file is released under the MIT license. See README-MIT for more information
 */
 
 #include "StdAfx.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "Management/Battleground/Battleground.h"
 #include "Chat/ChatHandler.hpp"
 #include "Server/WorldSession.h"
@@ -21,8 +22,6 @@ bool ChatHandler::HandleBGForceInitQueueCommand(const char* /*args*/, WorldSessi
 //.battleground getqueue
 bool ChatHandler::HandleBGGetQueueCommand(const char* /*args*/, WorldSession* m_session)
 {
-    BattlegroundManager.HandleGetBattlegroundQueueCommand(m_session);
-
     SystemMessage(m_session, "Getting battleground queue. Done.");
 
     return true;
@@ -100,7 +99,7 @@ bool ChatHandler::HandleBGSendStatusCommand(const char* args, WorldSession* m_se
         return false;
 
     uint32 type = atoi(args);
-    BattlegroundManager.SendBattlefieldStatus(m_session->GetPlayer(), BGSTATUS_INQUEUE, type, 0, 0, m_session->GetPlayer()->GetMapId(), 0);
+    BattlegroundManager.SendQueueStatus(m_session->GetPlayer(), BGSTATUS_INQUEUE, type, 0, 0, m_session->GetPlayer()->GetMapId(), 0);
     return true;
 }
 

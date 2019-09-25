@@ -17,6 +17,7 @@ This file is released under the MIT license. See README-MIT for more information
 #include "Management/ItemInterface.h"
 #include "Management/Channel.h"
 #include "Management/ChannelMgr.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "WorldSocket.h"
 #include "Storage/MySQLDataStore.hpp"
 #include <CrashHandler.h>

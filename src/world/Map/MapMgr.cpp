@@ -27,6 +27,7 @@
 #include "CThreads.h"
 #include "Management/WorldStatesHandler.h"
 #include "Management/Item.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "CrashHandler.h"
 #include "Units/Summons/Summon.h"
 #include "Units/Summons/GuardianSummon.h"

@@ -5,6 +5,7 @@ This file is released under the MIT license. See README-MIT for more information
 
 #include <StdAfx.h>
 #include "AlteracValley.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Management/HonorHandler.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Management/WorldStates.h"

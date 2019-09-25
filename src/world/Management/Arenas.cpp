@@ -23,6 +23,7 @@
 #include "Management/Arenas.h"
 #include "Management/ArenaTeam.h"
 #include "Management/WorldStates.h"
+#include "Management/Battleground/BattlegroundDefines.h"
 #include "Map/MapMgr.h"
 #include "Spell/SpellAuras.h"
 #include "Objects/GameObject.h"

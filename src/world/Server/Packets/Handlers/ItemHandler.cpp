@@ -29,6 +29,7 @@ This file is released under the MIT license. See README-MIT for more information
 #include "Server/Packets/CmsgDestroyItem.h"
 #include "Server/Packets/CmsgSwapInvItem.h"
 #include "Server/Packets/CmsgUseItem.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Management/Battleground/Battleground.h"
 #include "Spell/SpellMgr.h"
 #include "Storage/MySQLDataStore.hpp"
@@ -156,14 +157,7 @@ void WorldSession::handleUseItemOpcode(WorldPacket& recvPacket)
     if (_player->m_bg != nullptr && isArena(_player->m_bg->GetType()))
     {
         // Not all consumables are usable in arena
-        if (itemProto->Class == ITEM_CLASS_CONSUMABLE && !itemProto->HasFlag(ITEM_FLAG_USEABLE_IN_ARENA))
-        {
-            _player->getItemInterface()->BuildInventoryChangeError(tmpItem, nullptr, INV_ERR_NOT_DURING_ARENA_MATCH);
-            return;
-        }
-
-        // Not all items are usable in arena
-        if (itemProto->HasFlag(ITEM_FLAG_NOT_USEABLE_IN_ARENA))
+        if ((itemProto->Class == ITEM_CLASS_CONSUMABLE && !itemProto->HasFlag(ITEM_FLAG_USEABLE_IN_ARENA)) || itemProto->HasFlag(ITEM_FLAG_NOT_USEABLE_IN_ARENA))
         {
             _player->getItemInterface()->BuildInventoryChangeError(tmpItem, nullptr, INV_ERR_NOT_DURING_ARENA_MATCH);
             return;

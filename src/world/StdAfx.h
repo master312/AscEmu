@@ -130,8 +130,8 @@ This file is released under the MIT license. See README-MIT for more information
 #include "Management/WorldStates.h"
 #include "Management/WorldStatesHandler.h"
 
-#include "Management/Battleground/Battleground.h"
-#include "Management/Battleground/BattlegroundMgr.h"
+// #include "Management/Battleground/Battleground.h"
+// #include "Management/Battleground/BattlegroundMgr.h"
 
 #include "Management/Gossip/Gossip.h"
 #include "Management/Gossip/GossipDefines.hpp"

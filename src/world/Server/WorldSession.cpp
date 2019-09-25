@@ -26,6 +26,7 @@
 #include "Exceptions/PlayerExceptions.hpp"
 #include "Management/ItemInterface.h"
 #include "Management/Battleground/Battleground.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Storage/MySQLStructures.h"
 #include "Server/MainServerDefines.h"

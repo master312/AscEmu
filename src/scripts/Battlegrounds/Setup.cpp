@@ -31,6 +31,7 @@
 #include "StrandOfTheAncient.h"
 #include "WarsongGulch.h"
 #include "Server/Script/ScriptMgr.h"
+#include "Management/Battleground/BattlegroundMgr.h"
 
 extern "C" SCRIPT_DECL void _exp_set_serverstate_singleton(ServerState* state)
 {

@@ -15,6 +15,7 @@ This file is released under the MIT license. See README-MIT for more information
 #include "Definitions/SpellRanged.h"
 
 #include "Management/Battleground/Battleground.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Management/ItemInterface.h"
 #include "Map/Area/AreaStorage.hpp"
 #include "Map/MapMgr.h"

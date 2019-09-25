@@ -24,7 +24,7 @@
 #include "Units/Players/PlayerCache.h"
 #include "Server/Definitions.h"
 #include "Management/QuestDefines.hpp"
-#include "Management/Battleground/BattlegroundMgr.h"
+#include "Management/Battleground/BattlegroundScore.h"
 #include "Management/MailMgr.h"
 #include "Management/ItemPrototype.h"
 #include "Management/AchievementMgr.h"
