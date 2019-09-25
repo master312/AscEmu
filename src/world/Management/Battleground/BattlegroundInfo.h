@@ -2,31 +2,25 @@
 #include "CommonTypes.hpp"
 #include "BattlegroundDefines.h"
 
-inline bool isArena(uint32 x)
+class SERVER_DECL CBattlegroundInfo 
 {
-    return (x >= BATTLEGROUND_ARENA_2V2 && x <= BATTLEGROUND_ARENA_5V5);
-}
+    public:
 
-// // get level grouping for player
-static inline uint32 GetLevelGrouping(uint32 level)
-{
-    return (level / 10) - 1;
-}
+        CBattlegroundInfo();
+        ~CBattlegroundInfo();
 
-static inline uint32 GetFieldCount(uint32 BGType)
-{
-    switch (BGType)
-    {
-        case BATTLEGROUND_ALTERAC_VALLEY:
-            return 5;
-        case BATTLEGROUND_ARATHI_BASIN:
-        case BATTLEGROUND_WARSONG_GULCH:
-        case BATTLEGROUND_STRAND_OF_THE_ANCIENT:
-        case BATTLEGROUND_ISLE_OF_CONQUEST:
-            return 2;
-        case BATTLEGROUND_EYE_OF_THE_STORM:
-            return 1;
-        default:
-            return 0;
-    }
-}
+        static bool IsArena(uint32 x);
+
+        /// get level grouping for player
+        static uint32 GetLevelGrouping(uint32 level);
+
+        static uint32 GetFieldCount(uint32 BGType);
+
+        /// Returns the minimum number of players (Only valid for battlegrounds)
+        static uint32 GetMinimumPlayers(uint32 dbcIndex);
+
+        /// Returns the maximum number of players (Only valid for battlegrounds)
+        static uint32 GetMaximumPlayers(uint32 dbcIndex);
+        
+        static uint8 GetBattlegroundCaption(BattleGroundTypes bgType);
+};

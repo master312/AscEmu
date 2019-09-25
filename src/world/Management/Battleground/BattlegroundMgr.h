@@ -131,12 +131,6 @@ class SERVER_DECL CBattlegroundManager : public Singleton<CBattlegroundManager>,
 
         /// Sends battleground/arena queue status to player ("ready","timeInQue","UpdateRunningTimeOfCurrentBG")
         void SendQueueStatus(Player* plr, BattleGroundStatus Status, uint32 Type, uint32 InstanceID, uint32 Time, uint32 MapId, uint8 RatedMatch);
-
-        /// Returns the minimum number of players (Only valid for battlegrounds)
-        uint32 GetMinimumPlayers(uint32 dbcIndex);
-
-        /// Returns the maximum number of players (Only valid for battlegrounds)
-        uint32 GetMaximumPlayers(uint32 dbcIndex);
 };
 
 #define BattlegroundManager CBattlegroundManager::getSingleton()

@@ -6385,7 +6385,7 @@ void Spell::SpellEffectActivateSpec(uint8_t /*effectIndex*/)
     else if (p_caster->m_bg)
     {
         uint32 Type = p_caster->m_bg->GetType();
-        if (isArena(Type))
+        if (CBattlegroundInfo::IsArena(Type))
         {
             sendCastResult(SPELL_FAILED_AFFECTING_COMBAT); // does the job
             return;

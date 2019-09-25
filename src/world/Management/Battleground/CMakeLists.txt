@@ -5,6 +5,7 @@ set(PATH_PREFIX Management/Battleground)
 set(SRC_MANAGEMENT_BATTLEGROUND_FILES
    ${PATH_PREFIX}/BattlegroundDefines.h
    ${PATH_PREFIX}/BattlegroundInfo.h
+   ${PATH_PREFIX}/BattlegroundInfo.cpp
    ${PATH_PREFIX}/BattlegroundScore.h
    ${PATH_PREFIX}/Battleground.cpp
    ${PATH_PREFIX}/Battleground.h

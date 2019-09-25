@@ -22,8 +22,9 @@
 #include "Units/Players/PlayerDefines.hpp"
 #include "Management/HonorHandler.h"
 #include "Management/Battleground/Battleground.h"
-#include "Management/Arenas.h"
+#include "Management/Battleground/BattlegroundInfo.h"
 #include "Management/Battleground/BattlegroundMgr.h"
+#include "Management/Arenas.h"
 #include "Storage/MySQLDataStore.hpp"
 #include "Map/MapMgr.h"
 #include <Spell/Definitions/AuraInterruptFlags.h>
@@ -92,7 +93,7 @@ CBattleground::~CBattleground()
 
 void CBattleground::UpdatePvPData()
 {
-    if (isArena(m_type))
+    if (CBattlegroundInfo::IsArena(m_type))
     {
         if (!m_ended)
         {
@@ -130,7 +131,7 @@ void CBattleground::BuildPvPUpdateDataPacket(WorldPacket* data)
     data->reserve(10 * (m_players[0].size() + m_players[1].size()) + 50);
 
     BattlegroundScore* bs;
-    if (isArena(m_type))
+    if (CBattlegroundInfo::IsArena(m_type))
     {
         if (!m_ended)
         {
@@ -221,7 +222,7 @@ void CBattleground::BuildPvPUpdateDataPacket(WorldPacket* data)
 
         *data << uint32((m_players[0].size() + m_players[1].size()) - m_invisGMs);
 
-        uint32 FieldCount = GetFieldCount(GetType());
+        uint32 FieldCount = CBattlegroundInfo::GetFieldCount(GetType());
         for (uint8 i = 0; i < 2; ++i)
         {
             for (std::set<Player*>::iterator itr = m_players[i].begin(); itr != m_players[i].end(); ++itr)
@@ -1012,7 +1013,7 @@ void CBattleground::EventResurrectPlayers()
 
 bool CBattleground::CanPlayerJoin(Player* plr, uint32 type)
 {
-    return HasFreeSlots(plr->getBgTeam(), type) && (GetLevelGrouping(plr->getLevel()) == GetLevelGroup()) && (!plr->HasAura(BG_DESERTER));
+    return HasFreeSlots(plr->getBgTeam(), type) && (CBattlegroundInfo::GetLevelGrouping(plr->getLevel()) == GetLevelGroup()) && (!plr->HasAura(BG_DESERTER));
 }
 
 bool CBattleground::CreateCorpse(Player* /*plr*/)
@@ -1071,7 +1072,7 @@ uint32 CBattleground::GetFreeSlots(uint32 t, uint32 type)
 {
     std::lock_guard<std::recursive_mutex> lock(m_mutex);
 
-    uint32 maxPlayers = BattlegroundManager.GetMaximumPlayers(type);
+    uint32 maxPlayers = CBattlegroundInfo::GetMaximumPlayers(type);
 
     size_t s = maxPlayers - m_players[t].size() - m_pendPlayers[t].size();
     return static_cast<uint32>(s);
@@ -1082,9 +1083,9 @@ bool CBattleground::HasFreeSlots(uint32 Team, uint32 type)
     std::lock_guard<std::recursive_mutex> lock(m_mutex);
 
     bool res;
-    uint32 maxPlayers = BattlegroundManager.GetMaximumPlayers(type);
+    uint32 maxPlayers = CBattlegroundInfo::GetMaximumPlayers(type);
 
-    if (isArena(type))
+    if (CBattlegroundInfo::IsArena(type))
     {
         res = (static_cast<uint32>(m_players[Team].size()) + m_pendPlayers[Team].size() < maxPlayers);
     }

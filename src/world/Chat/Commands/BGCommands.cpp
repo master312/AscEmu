@@ -12,9 +12,7 @@ This file is released under the MIT license. See README-MIT for more information
 //.battleground forceinitqueue
 bool ChatHandler::HandleBGForceInitQueueCommand(const char* /*args*/, WorldSession* m_session)
 {
-    BattlegroundManager.EventQueueUpdate(true);
-
-    SystemMessage(m_session, "Forcing initialization of all battlegrounds. Done.");
+    SystemMessage(m_session, "TODO: Command not implemented!! Forcing initialization of all battlegrounds. Done.");
 
     return true;
 }

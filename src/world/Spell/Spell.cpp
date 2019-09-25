@@ -56,7 +56,7 @@ SpellCastResult Spell::canCast(bool tolerate, uint32_t* parameter1, uint32_t* pa
         if (p_caster->m_bg != nullptr)
         {
             // Arena checks
-            if (isArena(p_caster->m_bg->GetType()))
+            if (CBattlegroundInfo::IsArena(p_caster->m_bg->GetType()))
             {
                 // Spells with longer than 10 minute cooldown cannot be casted in arena
                 const auto spellCooldown = getSpellInfo()->getRecoveryTime() > getSpellInfo()->getCategoryRecoveryTime() ? getSpellInfo()->getRecoveryTime() : getSpellInfo()->getCategoryRecoveryTime();
